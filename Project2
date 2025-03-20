@@ -457,6 +457,22 @@ drawPair :-
   drawSymbol(' ', 4), drawSymbol('e', 1), drawSymbol(' ', 4), drawSymbol('f', 1),
   drawSymbol(' ', 4), drawSymbol('g', 1), drawSymbol(' ', 4), drawSymbol('h', 1).
 
+pair(a, 8).
+pair(b, 7).
+pair(c, 6).
+pair(d, 5).
+pair(e, 4).
+pair(f, 3).
+pair(g, 2).
+pair(h, 1).
+
+pair(rook, r).
+pair(bishop, b).
+pair(king, k).
+pair(pawn, p).
+pair(queen, q).
+pair(knight, n).
+
 
 drawBoard(0, Col) :- drawSymbol(' ', 1), drawBorderLine(Col), drawPair.
 drawBoard(Row, Col) :-
