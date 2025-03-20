@@ -414,7 +414,6 @@ report_move(Color, Board, From_File-From_Rank, To_File-To_Rank, Rating) :-
 /* TASK 1: REPLACE THE print_board PREDICATE BELOW WITH YOUR CODE */
 /*         KEEP THE NAME print_board, JUST CHANGE THE IMPLEMENTATION*/
 /* ----------------------------------------------------------------------- */
-print_board(Board) :-
 drawSymbol(Symbol, 0).
 drawSymbol(Symbol, N) :- N > 0, write(Symbol), N1 is N - 1, drawSymbol(Symbol, N1).
 
@@ -453,8 +452,8 @@ drawBoard(Row, Col) :-
   drawBoard(NewRow, Col).
 
 
-  
-main :- drawBoard(8, 8).
+print_board() :-
+  drawBoard(8,8), n1.
 /* ----------------------------------------------------------------------- */
 
 
