@@ -426,12 +426,12 @@ drawBorderLine(Col) :-
   drawBorderLine(NewCol).
 
 
-drawContentCell(Row, 0) :- drawSymbol('|', 1), nl.
-drawContentCell(Row, Col) :-
+drawContentCell(BoardStates, Row, 0) :- drawSymbol('|', 1), nl.
+drawContentCell(BoardStates, Row, Col) :-
   Col > 0,
-  drawSymbol('|', 1), drawSymbol(' ', 4),
+  drawSymbol('|', 1), drawCell(BoardStates, Row, Col),
   NewCol is Col - 1,
-  drawContentCell(Row, NewCol).
+  drawContentCell(BoardStates, Row, NewCol).
 
 drawCell(BoardStates, Row, Col) :-
   pair(Name, Col),
