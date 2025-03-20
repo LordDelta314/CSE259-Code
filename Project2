@@ -474,18 +474,18 @@ pair(queen, q).
 pair(knight, n).
 
 
-drawBoard(0, Col) :- drawSymbol(' ', 1), drawBorderLine(Col), drawPair.
-drawBoard(Row, Col) :-
+drawBoard(BoardStates, 0, Col) :- drawSymbol(' ', 1), drawBorderLine(Col), drawPair.
+drawBoard(BoardStates, Row, Col) :-
   Row > 0,
   drawSymbol(' ', 1),
   drawBorderLine(Col),
   drawSymbol(Row, 1),
-  drawContentCell(Row, Col),
+  drawContentCell(BoardStates, Row, Col),
   NewRow is Row - 1,
-  drawBoard(NewRow, Col).
+  drawBoard(BoardStates, NewRow, Col).
 
 
-print_board(Board) :- drawBoard(8,8), n1.
+print_board(Board) :- drawBoard(Board,8,8), n1.
 /* ----------------------------------------------------------------------- */
 
 
