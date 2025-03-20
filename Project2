@@ -452,8 +452,7 @@ drawBoard(Row, Col) :-
   drawBoard(NewRow, Col).
 
 
-print_board() :-
-  drawBoard(8,8), n1.
+print_board() :- drawBoard(8,8), n1.
 /* ----------------------------------------------------------------------- */
 
 
