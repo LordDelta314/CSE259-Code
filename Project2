@@ -485,7 +485,8 @@ drawBoard(BoardStates, Row, Col) :-
   drawBoard(BoardStates, NewRow, Col).
 
 
-print_board(Board) :- drawBoard(Board, 8, 8), n1.
+print_board(Board) :- 
+    drawBoard(Board, 8, 8), n1.
 /* ----------------------------------------------------------------------- */
 
 
