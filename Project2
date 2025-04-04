@@ -435,7 +435,7 @@ drawContentCell(BoardStates, Row, Col) :-
 
 drawCell(BoardStates, Row, Col) :-
   pair(Name, Col),
-  myMember(piece(Name-Row, Color, Piece), BoardStates),
+  mymember(piece(Name-Row, Color, Piece), BoardStates),
   drawSymbol(' ', 1),
   (
     (Color == black, drawSymbol('*', 1));
@@ -448,7 +448,7 @@ drawCell(BoardStates, Row, Col) :-
 % deals with white space
 drawCell(BoardStates, Row, Col) :-
   pair(Name, Col),
-  \+ (myMember(piece(Name-Row, Color, Piece), BoardStates)),
+  \+ (mymember(piece(Name-Row, Color, Piece), BoardStates)),
   drawSymbol(' ', 4).
 
 drawPair :-
