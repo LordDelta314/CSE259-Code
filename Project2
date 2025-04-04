@@ -418,7 +418,7 @@ drawSymbol(Symbol, 0).
 drawSymbol(Symbol, N) :- N > 0, write(Symbol), N1 is N - 1, drawSymbol(Symbol, N1).
 
 
-drawBorderLine(0) :- drawSymbol('+', 1), nl.
+drawBorderLine(0) :- drawSymbol('+', 1), n1.
 drawBorderLine(Col) :-
   Col > 0,
   drawSymbol('+', 1), drawSymbol('-', 4),
@@ -426,7 +426,7 @@ drawBorderLine(Col) :-
   drawBorderLine(NewCol).
 
 
-drawContentCell(BoardStates, Row, 0) :- drawSymbol('|', 1), nl.
+drawContentCell(BoardStates, Row, 0) :- drawSymbol('|', 1), n1.
 drawContentCell(BoardStates, Row, Col) :-
   Col > 0,
   drawSymbol('|', 1), drawCell(BoardStates, Row, Col),
