@@ -134,7 +134,7 @@ Rand is Number.               % Add random value to avoid deadlock
 % Strength assesses utility of the current game state for player based on its Color
 % Color will be white for playerA; OppositeColor is playerB (black)
 strengthA([state(_, _, _, _)|Board], Color, OppositeColor, Strength) :-
-    strengthB(Board, Color, OppositeColor, Strength), !.
+    strengthA(Board, Color, OppositeColor, Strength), !.
 strengthA([piece(_, Color, Type)|Board], Color, OppositeColor, Strength) :-
     valueA(Type, Value),
     strengthA(Board, Color, OppositeColor, PartialStrength),
