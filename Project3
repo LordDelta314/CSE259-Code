@@ -120,14 +120,20 @@ prove(L => R) :-
 
 % Rule4a
 prove(L => R) :-
-  member(A v B, L),
-  del(A v B, L, NewL),
-  nl, write('=\t'), write([A | NewL] => R),
-  write('\t (by or/left)'),
-  prove([A | NewL] => R),
-  nl, write('=\t'), write([B | NewL] => R),
-  write('\t (by or/left)'),
-  prove([B | NewL] => R).
+    member(A v B, L),
+    del(A v B, L, NewL),
+    nl,
+    write('\tFirst branch: '),
+    nl,
+    write('=\t'), write([A | NewL] => R),
+    write('\t (by or/left)'),
+    prove([A | NewL] => R),
+    nl,
+    write('\tSecond branch: '),
+    nl,
+    write('=\t'), write([B | NewL] => R),
+    write('\t (by or/left)'),
+    prove([B | NewL] => R).
 
 % Rula4b
 prove(L => R) :-
