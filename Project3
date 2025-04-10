@@ -117,6 +117,7 @@ prove(L => R) :-
  * then produce two new lines, each with one of the two sub formulae replacing the formula. 
  * Both of these must be proved in order to prove the original theorem.
  */
+
 % Rule4a
 prove(L => R) :-
   member(A v B, L),
@@ -127,6 +128,24 @@ prove(L => R) :-
   nl, write('=\t'), write([B | NewL] => R),
   write('\t (by or/left)'),
   prove([B | NewL] => R).
+
+% Rula4b
+prove(L => R) :-
+    member(A ^ B, R),
+    del(A ^ B, R, NewR),
+    nl,
+    write('\tFirst branch: '),
+    nl,
+    write('=\t'), write(L => [A | NewR]),
+    write('\t (by and/right)'),
+    prove(L => [A | NewR]),
+    nl,
+    write('\tSecond branch: '),
+    nl,
+    write('=\t'), write(L => [B | NewR]),
+    write('\t (by and/right)'),
+    prove(L => [B | NewR]).
+
 
 
 
