@@ -104,9 +104,9 @@ prove(L => R) :-
 prove(L => R) :-
   member(A -> B, R),
   del(A -> B, R, NewR),
-  nl, write('=\t'), write([L | A] => [NewR | B]),
+  nl, write('=\t'), write([A | L] => [B | NewR]),
   write('\t (by arrow/right)'),
-  prove([L | A] => [NewR | B]).
+  prove([A | L] => [B | NewR]).
 
 
 % Implement all branching rules below by following Wangs algorithm
