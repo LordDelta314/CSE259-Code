@@ -100,7 +100,13 @@ prove(L => R) :-
  * If the last connective of a formula on the right is A ➝ B, remove A ➝ B from the right 
  * and then add A to the left and B to the right.
  */
-% Write your code here
+
+prove(L => R) :-
+  member(A -> B, R),
+  del(A -> B, R, NewR),
+  nl, write('=\t'), write([L | A] => [NewR | B]),
+  write('\t (by arrow/right)'),
+  prove([L | A] => [NewR | B]).
 
 
 % Implement all branching rules below by following Wangs algorithm
