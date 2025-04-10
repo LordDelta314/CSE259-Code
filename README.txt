@@ -1,13 +1,5 @@
-Laleet Adhithiya Jayakumar
+Laleet Adhithiya Jayakumar - Coded rule 3, helped with rest of code
 
+Preston Kirby - Tested code, helped schedule meeting
 
-
-
-Preston Kirby
-
-
-
-
-
-Kush Sharma
-
+Kush Sharma - Coded rule 4, tested code
