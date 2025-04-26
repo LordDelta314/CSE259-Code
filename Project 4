@@ -1,1 +1,119 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CSE 259 - Project 4: I'm My Own Grandpa
+% Based on the song lyrics and kinship rules.
+% Goal: Minimize facts, maximize rules, verify song claims.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+% Base facts: genders
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+male(i).      male(dad).    male(baby).   male(onrun).
+female(widow). female(redhair).
+
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+% Biological parent facts
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+father(dad, i).
+father(i,   baby).
+father(dad, onrun).
+
+mother(widow,   redhair).
+mother(widow,   baby).
+mother(redhair, onrun).
+mother(redhair, i).
+
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+% Marriage facts
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+husband(i,   widow).
+husband(dad, redhair).
+
+% Symmetric spouse relation
+wife(X, Y)   :- husband(Y, X).
+spouse(X, Y) :- husband(X, Y).
+spouse(X, Y) :- wife(X, Y).
+
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+% Parent rules (biological + step via spouse)
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+parent0(X, Y) :- father(X, Y).
+parent0(X, Y) :- mother(X, Y).
+
+parent(X, Y) :- parent0(X, Y).
+parent(X, Y) :- spouse(X, Z), parent0(Z, Y).
+
+child(C, P) :- parent(P, C).
+
+mother(M, C) :- female(M), parent(M, C).
+father(F, C) :- male(F),   parent(F, C).
+
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+% Child-gendered predicates
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+daughter(X, Y) :- female(X), child(X, Y).
+son(X, Y)      :- male(X),   child(X, Y).
+
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+% Sibling and extended-sibling rules
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+sibling(X, Y) :- parent(P, X), parent(P, Y), X \= Y.
+brother(X, Y) :- male(X),   sibling(X, Y).
+sister(X, Y)  :- female(X), sibling(X, Y).
+
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+% Uncle (by blood or by marriage)
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+uncle(U, N) :-
+  male(U),
+  parent(P, N),
+  ( sibling(U, P)
+  ; ( spouse(P, S), sibling(U, S) )
+  ).
+
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+% Son-in-law
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+son_in_law(SIL, P) :-
+  male(SIL),
+  spouse(SIL, C),
+  parent(P, C).
+
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+% Grandparent / grandchild
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+grandparent(GP, GC) :- parent(GP, P), parent(P, GC).
+grandfather(X, Y)   :- male(X),   grandparent(X, Y).
+grandmother(X, Y)   :- female(X), grandparent(X, Y).
+grandchild(X, Y)    :- grandparent(Y, X).
+
+% Own-grandfather check
+is_own_grandfather(X) :- grandfather(X, X).
+
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+% Printing helpers & test runner
+%––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––%
+writeln(X) :- write(X), nl.
+
+blank_line :- nl.
+
+print_test(Question, Goal) :-
+  ( Goal -> R = true ; R = false ),
+  write(Question), write(' ?: '), writeln(R),
+  blank_line.
+
+runIt :-
+  print_test('Is redhair the daughter of i',    daughter(redhair, i)),
+  print_test('Is redhair the mother of i',      mother(redhair, i)),
+  print_test('Is dad the son in law of i',      son_in_law(dad, i)),
+  print_test('Is baby the brother of dad',      brother(baby, dad)),
+  print_test('Is baby the uncle of i',          uncle(baby, i)),
+  print_test('Is baby the brother of redhair',  brother(baby, redhair)),
+  print_test('Is onrun the grandchild of i',    grandchild(onrun, i)),
+  print_test('Is widow the mother of redhair',  mother(widow, redhair)),
+  print_test('Is widow the grandmother of i',   grandmother(widow, i)),
+  print_test('Is i the grandchild of widow',    grandchild(i, widow)),
+  print_test('Is i the grandfather of i',       grandfather(i, i)),
+  print_test('Is John his own grandfather',     is_own_grandfather(i)).
+
+:- initialization(runIt).
 
